@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rota Cultural — Sul da Bahia</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="badge">Extensão Universitária • Ciência da Computação</span>
+      <h1>Rota Cultural do Sul da Bahia</h1>
+    </div>
+    <div class="progress-wrapper">
+      <span id="step-counter">Parada 1 de 6</span>
+      <div class="progress-bar">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-container">
+    
+    <section class="map-section" aria-label="Mapa interativo do Sul da Bahia">
+      <div class="map-card">
+        <div class="map-legend">
+          <span>🌊 Oceano Atlântico</span>
+          <span>🍫 Costa do Cacau</span>
+        </div>
+
+        <svg id="bahia-map" viewBox="0 0 800 620" preserveAspectRatio="xMidYMid meet">
+          <defs>
+           
+            <linearGradient id="oceanGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#0b253a" />
+              <stop offset="100%" stop-color="#071927" />
+            </linearGradient>
+            
+            <linearGradient id="landGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#132a1e" />
+              <stop offset="100%" stop-color="#0e2017" />
+            </linearGradient>
+            
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+              <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          
+          <rect width="800" height="620" fill="url(#oceanGrad)" />
+
+          
+          <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+            <line x1="0" y1="120" x2="800" y2="120" />
+            <line x1="0" y1="240" x2="800" y2="240" />
+            <line x1="0" y1="360" x2="800" y2="360" />
+            <line x1="0" y1="480" x2="800" y2="480" />
+            <line x1="200" y1="0" x2="200" y2="620" />
+            <line x1="400" y1="0" x2="400" y2="620" />
+            <line x1="600" y1="0" x2="600" y2="620" />
+          </g>
+
+          
+          <path
+            d="M 0,0 L 560,0 C 570,55 595,95 585,145 C 575,195 545,235 550,285 C 555,335 530,385 510,435 C 490,485 470,545 450,620 L 0,620 Z"
+            fill="url(#landGrad)"
+            stroke="#244b37"
+            stroke-width="3"
+          />
+
+          
+          <path d="M 140,310 Q 320,300 548,295" fill="none" stroke="#184e68" stroke-width="4" opacity="0.7" />
+          <path d="M 180,105 Q 370,115 582,110" fill="none" stroke="#184e68" stroke-width="4" opacity="0.7" />
+
+          
+          <text x="640" y="210" fill="rgba(148, 210, 255, 0.25)" font-size="14" font-weight="600" letter-spacing="3">
+            OCEANO ATLÂNTICO
+          </text>
+          <text x="85" y="190" fill="rgba(134, 239, 172, 0.18)" font-size="13" font-weight="600" letter-spacing="2">
+            MATA ATLÂNTICA &amp; CACAU
+          </text>
+
+          
+          <path
+            id="road-base"
+            d="M 435,530 C 455,475 475,445 485,405 C 495,365 360,355 345,315 C 330,275 510,295 535,265 C 560,235 545,195 550,165 C 555,135 568,115 572,85"
+            fill="none"
+            stroke="#334155"
+            stroke-width="14"
+            stroke-linecap="round"
+          />
+          <path
+            id="road-line"
+            d="M 435,530 C 455,475 475,445 485,405 C 495,365 360,355 345,315 C 330,275 510,295 535,265 C 560,235 545,195 550,165 C 555,135 568,115 572,85"
+            fill="none"
+            stroke="#facc15"
+            stroke-width="2.5"
+            stroke-dasharray="8 8"
+            stroke-linecap="round"
+          />
+
+          
+          <g id="map-pins"></g>
+
+          
+          <g id="car-marker" transform="translate(435, 530)">
+            
+            <ellipse cx="0" cy="4" rx="16" ry="10" fill="rgba(0,0,0,0.45)" />
+            
+            <rect x="-14" y="-8" width="28" height="16" rx="5" fill="#f97316" stroke="#fff" stroke-width="1.8" />
+            
+            <rect x="2" y="-6" width="6" height="12" rx="2" fill="#0f172a" />
+            <rect x="-10" y="-5" width="4" height="10" rx="1.5" fill="#0f172a" />
+            
+            <circle cx="13" cy="-5" r="1.8" fill="#fef08a" />
+            <circle cx="13" cy="5" r="1.8" fill="#fef08a" />
+          </g>
+        </svg>
+
+        
+        <div class="controls-bar">
+          <button id="btn-prev" class="nav-btn secondary" disabled>
+            ← Anterior
+          </button>
+          <div class="city-pills" id="city-pills"></div>
+          <button id="btn-next" class="nav-btn primary">
+            Próximo →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="info-section" aria-live="polite">
+      <article class="info-card" id="info-card">
+        <div class="image-gallery">
+          <img id="region-image" src="" alt="Imagem da cidade" />
+          <div class="image-caption">
+            <span id="region-tag" class="region-tag">Sub-região</span>
+            <p id="image-credit">Registro ilustrativo da região</p>
+          </div>
+        </div>
+
+        <div class="info-body">
+          <div class="title-row">
+            <h2 id="region-title">Carregando...</h2>
+            <span id="region-km" class="km-badge">Parada 1</span>
+          </div>
+
+          <p id="region-subtitle" class="subtitle"></p>
+
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="historia">História &amp; Identidade</button>
+            <button class="tab-btn" data-tab="cultura">Cultura &amp; Tradições</button>
+            <button class="tab-btn" data-tab="turismo">Pontos Turísticos</button>
+          </div>
+
+          <div class="tab-content">
+            <div id="tab-historia" class="tab-pane active">
+              <p id="region-history"></p>
+            </div>
+            <div id="tab-cultura" class="tab-pane">
+              <p id="region-culture"></p>
+            </div>
+            <div id="tab-turismo" class="tab-pane">
+              <ul id="region-spots" class="spots-list"></ul>
+            </div>
+          </div>
+
+          <div class="curiosity-box">
+            <strong>💡 Você sabia?</strong>
+            <p id="region-curiosity"></p>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>
+      Projeto de Extensão II — Programa de Ação e Difusão Cultural (Bacharelado em Ciência da Computação).
+    </p>
+    
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdlzTlHpkaT6R0ltGfvX8UeeJyatbTkLgVJFmcXjjWlr2BQ1g/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="feedback-link">
+      Avaliar este projeto ★
+    </a>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+            </html>
+            
